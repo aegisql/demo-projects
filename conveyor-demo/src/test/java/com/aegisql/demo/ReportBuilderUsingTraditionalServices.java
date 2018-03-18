@@ -40,8 +40,8 @@ public class ReportBuilderUsingTraditionalServices {
 	@Test
 	public void testTraditionalService() {
 		UserService userService = mock(UserService.class);
-		when(userService.getUserInfo("11111111")).thenReturn(new UserInfo(1, "Иван", "Иванович", "ivan.ivanovich@moscow.ru"));
-		when(userService.getUserInfo("22222222")).thenReturn(new UserInfo(2, "Jane", "Johnson", "jane.johnson@newyork.us"));
+		when(userService.getUserInfo("11111111")).thenReturn(new UserInfo(1, "Иван", "Иванович", "Петров","ivan.ivanovich@moscow.ru"));
+		when(userService.getUserInfo("22222222")).thenReturn(new UserInfo(2, "Jane", "","Johnson", "jane.johnson@newyork.us"));
 		
 		BillingService billlingService = mock(BillingService.class);
 		when(billlingService.getBalance("11111111")).thenReturn(new Balance("11111111",BigDecimal.valueOf(100.5),"РУБ",System.currentTimeMillis()));
@@ -59,7 +59,9 @@ public class ReportBuilderUsingTraditionalServices {
 		accounts.forEach(account->{
 			UserInfo ui = userService.getUserInfo(account);
 			Balance  b = billlingService.getBalance(account);
-			Supplier<String> builder = new BalanceReportBuilderRu();
+			AbstractReportBuilder builder = new BalanceReportBuilderRu();
+			builder.setUserInfo(ui);
+			builder.addBalance(b);
 			reportService.sendReportByEmail(builder.get(), ui.getEmail(), "Balance Report");
 		});
 		
