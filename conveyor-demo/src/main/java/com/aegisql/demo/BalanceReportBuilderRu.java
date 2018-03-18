@@ -10,11 +10,11 @@ public class BalanceReportBuilderRu extends AbstractReportBuilder {
 		StringBuilder builder = new StringBuilder();
 		builder
 		.append("Уважаем").append(getGenderAddress(userInfo.getGender())).append(" ").append(userInfo.getFirstName()).append(" ").append(userInfo.getMiddleName()).append(",\n\n")
-		.append("Остаток на ваших счетах").append("\n");
+		.append("СЧЕТ\t\tСУММА\tВАЛЮТА\tДАТА").append("\n");
 		for(Balance b:balance) {
 			builder
-			.append(b.getAccount()).append(" ")
-			.append(b.getBalance()).append(" ").append(b.getCurrency()).append(" ").append(getLocalDateFormat().format(b.getTimestamp()))
+			.append(hideAccount(b.getAccount())).append("\t\t")
+			.append(b.getBalance()).append("\t").append(b.getCurrency()).append("\t").append(getLocalDateFormat().format(b.getTimestamp()))
 			.append("\n")
 			;
 		}

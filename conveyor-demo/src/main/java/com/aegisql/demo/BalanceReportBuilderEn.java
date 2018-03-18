@@ -10,10 +10,10 @@ public class BalanceReportBuilderEn extends AbstractReportBuilder {
 		StringBuilder builder = new StringBuilder();
 		builder
 		.append("Dear ").append(getGenderAddress(userInfo.getGender())).append(" ").append(userInfo.getLastName()).append(" ").append(",\n\n")
-		.append("Remaining balance on your accounts").append("\n\n");
+		.append("ACCOUNT\t\tBALANCE\tCURRENCY\tDATE").append("\n\n");
 		for(Balance b:balance) {
 			builder
-			.append(b.getAccount()).append(" ")
+			.append(hideAccount(b.getAccount())).append(" ")
 			.append(b.getBalance()).append(" ").append(b.getCurrency()).append(" ").append(getLocalDateFormat().format(b.getTimestamp()))
 			.append("\n")
 			;

@@ -18,6 +18,14 @@ public abstract class AbstractReportBuilder implements Supplier<String> {
 		this.balance.add(balance);
 	}
 
+	protected String hideAccount(String acct) {
+		StringBuilder sb = new StringBuilder(acct);
+		for(int i = 0; i < acct.length() - 4; i++) {
+			sb.setCharAt(i, '*');
+		}
+		return sb.toString();
+	}
+	
 	public abstract DateFormat getLocalDateFormat();
 	public abstract String getGenderAddress(int gender);
 	
