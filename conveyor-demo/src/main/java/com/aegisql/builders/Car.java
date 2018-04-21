@@ -12,6 +12,13 @@ public final class Car extends Vehicle {
 	public int getPassengers() {
 		return passengers;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Car ["+super.toString()+", passengers=").append(passengers).append("]");
+		return builder.toString();
+	}
 	
 	
 }

@@ -19,4 +19,12 @@ public final class Truck extends Vehicle {
 		return maxWeight;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Truck ["+super.toString()+", axles=").append(axles).append(", maxWeight=").append(maxWeight).append("]");
+		return builder.toString();
+	}
+
+	
 }

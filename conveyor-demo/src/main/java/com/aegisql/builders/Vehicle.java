@@ -42,6 +42,16 @@ public abstract class Vehicle {
 	public String getColor() {
 		return color;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("make=").append(make).append(", model=").append(model).append(", year=").append(year)
+				.append(", vin=").append(vin).append(", plateNumber=").append(plateNumber).append(", color=")
+				.append(color);
+		return builder.toString();
+	}
+	
 	
 	
 }
