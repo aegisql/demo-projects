@@ -25,8 +25,16 @@ public class AddressBuilder <R> extends AbstractBuilder<Address,R> {
         this.zipCode = zipCode;
     }
 
+    protected AddressBuilder(Function<AbstractBuilder<Address, R>, R> returnControl, Address a) {
+        this(returnControl,a.getStreetNumber(),a.getStreet(),a.getAptNumber(),a.getTown(),a.getState(),a.getZipCode());
+    }
+
     protected AddressBuilder(Function<AbstractBuilder<Address, R>, R> returnControl) {
         this(returnControl,null,null,null,null,null,null);
+    }
+
+    AddressBuilder<R> returnTo(Function<AbstractBuilder<Address, R>, R> returnControl) {
+        return new AddressBuilder<>(returnControl,streetNumber,street,aptNumber,town,state,zipCode);
     }
 
     public AddressBuilder <R> streetNumber(String sn) {
@@ -61,6 +69,10 @@ public class AddressBuilder <R> extends AbstractBuilder<Address,R> {
     @Override
     public Address build() {
         return new Address(streetNumber,street,aptNumber,town,state,zipCode);
+    }
+
+    public R doneAddress() {
+        return done();
     }
 
 }

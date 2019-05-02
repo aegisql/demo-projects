@@ -9,15 +9,15 @@ public class PhoneTest {
 
     @Test
     public void testPhonePrintPrimary() {
-        Phone p = new Phone(1,111,2223344,true,PhoneType.HOME);
+        Phone p = new Phone(1,111,2223344,0,true,PhoneType.HOME);
         assertEquals("HOME +1-111-222-3344 primary",p.toString());
         System.out.println(p);
     }
 
     @Test
     public void testPhonePrint() {
-        Phone p = new Phone(1,111,2223344,false,PhoneType.WORK);
-        assertEquals("WORK +1-111-222-3344",p.toString());
+        Phone p = new Phone(1,111,2223344,100, false,PhoneType.WORK);
+        assertEquals("WORK +1-111-222-3344 ext.100",p.toString());
         System.out.println(p);
     }
 

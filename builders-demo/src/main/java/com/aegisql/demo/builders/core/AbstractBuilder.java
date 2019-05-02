@@ -13,7 +13,7 @@ public abstract class AbstractBuilder <T, R> implements Supplier<T>, ModelPart<A
         this.returnControl = returnControl;
     }
 
-    final R done() {
+    protected final R done() {
         return returnControl.apply(this);
     }
 
