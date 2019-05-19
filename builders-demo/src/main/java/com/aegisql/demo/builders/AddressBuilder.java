@@ -2,9 +2,8 @@ package com.aegisql.demo.builders;
 
 import com.aegisql.demo.builders.core.AbstractBuilder;
 import com.aegisql.demo.builders.core.ModelPartVisitor;
+import com.aegisql.demo.builders.core.ReturnControl;
 import com.aegisql.demo.models.Address;
-
-import java.util.function.Function;
 
 public class AddressBuilder <R> extends AbstractBuilder<Address,R> {
 
@@ -15,7 +14,7 @@ public class AddressBuilder <R> extends AbstractBuilder<Address,R> {
     private final String state;
     private final String zipCode;
 
-    public AddressBuilder(Function<AbstractBuilder<Address, R>, R> returnControl, String streetNumber, String street, String aptNumber, String town, String state, String zipCode) {
+    public AddressBuilder(ReturnControl<R> returnControl, String streetNumber, String street, String aptNumber, String town, String state, String zipCode) {
         super(returnControl);
         this.streetNumber = streetNumber;
         this.street = street;
@@ -25,15 +24,15 @@ public class AddressBuilder <R> extends AbstractBuilder<Address,R> {
         this.zipCode = zipCode;
     }
 
-    protected AddressBuilder(Function<AbstractBuilder<Address, R>, R> returnControl, Address a) {
+    protected AddressBuilder(ReturnControl<R> returnControl, Address a) {
         this(returnControl,a.getStreetNumber(),a.getStreet(),a.getAptNumber(),a.getTown(),a.getState(),a.getZipCode());
     }
 
-    protected AddressBuilder(Function<AbstractBuilder<Address, R>, R> returnControl) {
+    protected AddressBuilder(ReturnControl<R> returnControl) {
         this(returnControl,null,null,null,null,null,null);
     }
 
-    AddressBuilder<R> returnTo(Function<AbstractBuilder<Address, R>, R> returnControl) {
+    AddressBuilder<R> returnTo(ReturnControl<R> returnControl) {
         return new AddressBuilder<>(returnControl,streetNumber,street,aptNumber,town,state,zipCode);
     }
 

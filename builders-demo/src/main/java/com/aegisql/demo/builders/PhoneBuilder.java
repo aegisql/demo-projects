@@ -2,11 +2,11 @@ package com.aegisql.demo.builders;
 
 import com.aegisql.demo.builders.core.AbstractBuilder;
 import com.aegisql.demo.builders.core.ModelPartVisitor;
+import com.aegisql.demo.builders.core.ReturnControl;
 import com.aegisql.demo.models.Phone;
 import com.aegisql.demo.models.PhoneType;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class PhoneBuilder<R> extends AbstractBuilder<Phone,R> {
@@ -18,8 +18,8 @@ public class PhoneBuilder<R> extends AbstractBuilder<Phone,R> {
     private final boolean primary;
     private final PhoneType phoneType;
 
-    PhoneBuilder(Function<AbstractBuilder<Phone,R>,R> returnControl, int countryCode, int areaCode, int phone, int ext, boolean primary, PhoneType phoneType) {
-        super((Function) returnControl);
+    PhoneBuilder(ReturnControl<R> returnControl, int countryCode, int areaCode, int phone, int ext, boolean primary, PhoneType phoneType) {
+        super(returnControl);
         this.countryCode = countryCode;
         this.areaCode = areaCode;
         this.phone = phone;
@@ -28,15 +28,15 @@ public class PhoneBuilder<R> extends AbstractBuilder<Phone,R> {
         this.phoneType = phoneType;
     }
 
-    PhoneBuilder(Function<AbstractBuilder<Phone,R>, R> returnControl, Phone p) {
+    PhoneBuilder(ReturnControl<R>  returnControl, Phone p) {
         this(returnControl,p.getCountryCode(),p.getAreaCode(),p.getPhone(),p.getExt(), p.isPrimary(),p.getPhoneType());
     }
 
-    PhoneBuilder(Function<AbstractBuilder<Phone,R>, R> returnControl) {
+    PhoneBuilder(ReturnControl<R> returnControl) {
         this(returnControl,1,0,0,0, false,null);
     }
 
-    PhoneBuilder<R> returnTo(Function<AbstractBuilder<Phone,R>,R> returnControl) {
+    PhoneBuilder<R> returnTo(ReturnControl<R> returnControl) {
         return new PhoneBuilder<>(returnControl,countryCode,areaCode,phone,ext,primary,phoneType);
     }
 
@@ -94,12 +94,12 @@ public class PhoneBuilder<R> extends AbstractBuilder<Phone,R> {
         return done();
     }
 
-    public static <R> List<PhoneBuilder<R>> convertList(Function<AbstractBuilder<Phone,R>,R> returnControl, List<Phone> phones) {
+    public static <R> List<PhoneBuilder<R>> convertList(ReturnControl<R>  returnControl, List<Phone> phones) {
         if(phones == null) {
             return null;
         } else {
             return phones.stream().map(p ->
-                    new PhoneBuilder<>(returnControl,p)).collect(Collectors.toList());
+                    new PhoneBuilder<R>(returnControl,p)).collect(Collectors.toList());
         }
     }
 

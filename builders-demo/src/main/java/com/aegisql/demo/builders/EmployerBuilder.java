@@ -2,13 +2,12 @@ package com.aegisql.demo.builders;
 
 import com.aegisql.demo.builders.core.AbstractBuilder;
 import com.aegisql.demo.builders.core.ModelPartVisitor;
+import com.aegisql.demo.builders.core.ReturnControl;
 import com.aegisql.demo.models.Address;
 import com.aegisql.demo.models.Employer;
 import com.aegisql.demo.models.Phone;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class EmployerBuilder <R> extends AbstractBuilder<Employer, R> {
@@ -18,7 +17,7 @@ public class EmployerBuilder <R> extends AbstractBuilder<Employer, R> {
     private final AddressBuilder<EmployerBuilder<R>> addressBuilder;
     private final List<PhoneBuilder<EmployerBuilder<R>>> phoneBuilders;
 
-    EmployerBuilder(Function<AbstractBuilder<Employer, R>, R> returnControl, String companyName, String department, AddressBuilder<EmployerBuilder<R>>  address, List<PhoneBuilder<EmployerBuilder<R>>> phones) {
+    EmployerBuilder(ReturnControl<R> returnControl, String companyName, String department, AddressBuilder<EmployerBuilder<R>>  address, List<PhoneBuilder<EmployerBuilder<R>>> phones) {
         super(returnControl);
         this.companyName = companyName;
         this.department = department;
@@ -26,7 +25,7 @@ public class EmployerBuilder <R> extends AbstractBuilder<Employer, R> {
         this.phoneBuilders = phones;
     }
 
-    EmployerBuilder(Function<AbstractBuilder<Employer, R>, R> returnControl, Employer e) {
+    EmployerBuilder(ReturnControl<R>returnControl, Employer e) {
         this(returnControl,
                 e.getCompanyName(),
                 e.getDepartment(),
@@ -34,8 +33,12 @@ public class EmployerBuilder <R> extends AbstractBuilder<Employer, R> {
                 PhoneBuilder.convertList(a->null,e.getPhones()));
     }
 
-    EmployerBuilder(Function<AbstractBuilder<Employer, R>, R> returnControl) {
+    EmployerBuilder(ReturnControl<R> returnControl) {
         this(returnControl,null,null,null,null);
+    }
+
+    public EmployerBuilder<R> returnTo(ReturnControl<R> returnControl) {
+        return new EmployerBuilder<>(returnControl,companyName,department,addressBuilder,phoneBuilders);
     }
 
     public EmployerBuilder<R> companyName(String name) {
@@ -46,35 +49,28 @@ public class EmployerBuilder <R> extends AbstractBuilder<Employer, R> {
         return new EmployerBuilder<>(returnControl,companyName,depName,addressBuilder,phoneBuilders);
     }
 
-    private EmployerBuilder<R> addressBuilder(AddressBuilder<EmployerBuilder<R>> addressBuilder) {
-        return new EmployerBuilder<>(returnControl,companyName,department,addressBuilder,phoneBuilders);
+    public EmployerBuilder<R> address(AddressBuilder ab) {
+        return new EmployerBuilder<R>(returnControl,companyName,department,ab,phoneBuilders);
     }
 
     public AddressBuilder<EmployerBuilder<R>> address() {
-        if(addressBuilder != null) {
+        if(addressBuilder == null) {
             return newAddress();
         } else {
-            return new AddressBuilder<>(
-                    ab -> this.addressBuilder((AddressBuilder<EmployerBuilder<R>>) ab)
-            );
+            return addressBuilder.returnTo(ab->this.address((AddressBuilder) ab));
         }
     }
 
     public AddressBuilder<EmployerBuilder<R>> newAddress() {
         return new AddressBuilder<>(
-                ab -> this.addressBuilder((AddressBuilder<EmployerBuilder<R>>) ab)
+                ab -> this.address((AddressBuilder)ab)
         );
     }
 
     public AddressBuilder<EmployerBuilder<R>> address(Address a) {
         return new AddressBuilder<>(
-                ab -> this.addressBuilder((AddressBuilder<EmployerBuilder<R>>) ab), a
+                ab -> this.address((AddressBuilder)ab), a
         );
-    }
-
-    public EmployerBuilder<R> address(AddressBuilder<?> ab) {
-        Address a = ab.get();
-        return address(a).doneAddress();
     }
 
     public PhoneBuilder<EmployerBuilder<R>> phone() {
@@ -82,6 +78,18 @@ public class EmployerBuilder <R> extends AbstractBuilder<Employer, R> {
             List<PhoneBuilder<EmployerBuilder<R>>> newBuilderList = Builder.appendToList(phoneBuilders,(PhoneBuilder<EmployerBuilder<R>>)pb);
             return new EmployerBuilder<>(this.returnControl,this.companyName,this.department,this.addressBuilder,newBuilderList);
         });
+    }
+
+    public EmployerBuilder<R> phone(Phone ph) {
+        PhoneBuilder<EmployerBuilder<R>> pb = new PhoneBuilder<>(b->this,ph);
+        List<PhoneBuilder<EmployerBuilder<R>>> newBuilderList = Builder.appendToList(phoneBuilders, pb);
+        return new EmployerBuilder<>(this.returnControl,this.companyName,this.department,this.addressBuilder,newBuilderList);
+    }
+
+    public EmployerBuilder<R> phone(int i, Phone ph) {
+        PhoneBuilder<EmployerBuilder<R>> pb = new PhoneBuilder<>(b->this,ph);
+        List<PhoneBuilder<EmployerBuilder<R>>> newBuilderList = Builder.replaceItem(phoneBuilders, i, pb);
+        return new EmployerBuilder<>(this.returnControl,this.companyName,this.department,this.addressBuilder,newBuilderList);
     }
 
     public EmployerBuilder<R> phones(List<Phone> phones) {
@@ -126,4 +134,9 @@ public class EmployerBuilder <R> extends AbstractBuilder<Employer, R> {
     public AbstractBuilder<Employer, R> accept(ModelPartVisitor visitor) {
         return visitor.visit(this);
     }
+
+    public R doneEmployer() {
+        return done();
+    }
+
 }

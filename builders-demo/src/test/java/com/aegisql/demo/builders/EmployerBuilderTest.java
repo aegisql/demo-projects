@@ -2,6 +2,7 @@ package com.aegisql.demo.builders;
 
 import com.aegisql.demo.models.Address;
 import com.aegisql.demo.models.Employer;
+import com.aegisql.demo.models.Phone;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -61,11 +62,19 @@ public class EmployerBuilderTest {
 
         System.out.println(employer4);
 
-        Employer employer5 = Builder.of(employer3)
+        Employer employer5 = Builder.of(employer4)
                 .deletePhone(pb-> ! pb.get().isPrimary())
                 .build();
 
         System.out.println(employer5);
+
+        Phone phone = Builder.of(employer4).editPhone(0).get();
+
+        Employer employer6 = Builder.of(employer5)
+                .phone(phone)
+                .build();
+
+        System.out.println(employer6);
 
     }
 

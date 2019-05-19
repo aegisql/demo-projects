@@ -1,15 +1,14 @@
 package com.aegisql.demo.builders.core;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public abstract class AbstractBuilder <T, R> implements Supplier<T>, ModelPart<AbstractBuilder<T,R>> {
 
     protected T result;
 
-    protected final Function<AbstractBuilder <T, R>, R> returnControl;
+    protected ReturnControl<R> returnControl;
 
-    protected AbstractBuilder(Function<AbstractBuilder <T, R>, R> returnControl) {
+    protected AbstractBuilder(ReturnControl<R> returnControl) {
         this.returnControl = returnControl;
     }
 

@@ -1,17 +1,16 @@
 package com.aegisql.demo.builders;
 
-import com.aegisql.demo.builders.PhoneBuilder;
+import com.aegisql.demo.builders.core.ReturnControl;
 import com.aegisql.demo.models.Address;
 import com.aegisql.demo.models.Employer;
+import com.aegisql.demo.models.PersonalInfo;
 import com.aegisql.demo.models.Phone;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
@@ -19,30 +18,39 @@ import static java.util.stream.Collectors.toList;
 public class Builder {
 
     public static PhoneBuilder<PhoneBuilder> ofPhone() {
-        return new PhoneBuilder(a->a);
+        return new PhoneBuilder(ReturnControl.identity());
     }
 
     public static AddressBuilder<AddressBuilder> ofAddress() {
-        return new AddressBuilder(a->a);
+        return new AddressBuilder(ReturnControl.identity());
     }
 
     public static EmployerBuilder<EmployerBuilder> ofEmployer() {
-        return new EmployerBuilder(a->a);
+        return new EmployerBuilder(ReturnControl.identity());
+    }
+
+    public static PersonalInfoBuilder<PersonalInfoBuilder> ofPersonalInfo() {
+        return new PersonalInfoBuilder(ReturnControl.identity());
     }
 
     public static AddressBuilder<AddressBuilder> of(Address addr) {
         return new AddressBuilder(
-                 Function.identity(), addr);
+                 ReturnControl.identity(), addr);
     }
 
     public static PhoneBuilder<PhoneBuilder> of(Phone phone) {
         return new PhoneBuilder(
-                 Function.identity(), phone);
+                ReturnControl.identity(), phone);
     }
 
     public static EmployerBuilder<EmployerBuilder> of(Employer employer) {
         return new EmployerBuilder(
-                Function.identity(), employer);
+                ReturnControl.identity(), employer);
+    }
+
+    public static PersonalInfoBuilder<PersonalInfoBuilder> of(PersonalInfo personalInfo) {
+        return new PersonalInfoBuilder(
+                ReturnControl.identity(), personalInfo);
     }
 
     public static <T> List<T> convertList(List<? extends Supplier<T>> builders) {

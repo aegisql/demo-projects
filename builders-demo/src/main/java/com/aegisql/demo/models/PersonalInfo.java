@@ -15,9 +15,18 @@ public final class PersonalInfo {
     private final List<Phone> phones;
     private final Address address;
     private final Employer employer;
+    private final PersonalInfo mother;
+    private final PersonalInfo father;
+    private final PersonalInfo spouse;
+    private final List<PersonalInfo> siblings;
+    private final List<PersonalInfo> children;
     private final Map<String,String> miscellaneous;
 
-    public PersonalInfo(String firstName, String middleName, String lastName, Gender gender, LocalDate dateOfBirth, List<Phone> phones, Address address, Employer employer, Map<String,String> miscellaneous) {
+
+    public PersonalInfo(String firstName, String middleName, String lastName, Gender gender, LocalDate dateOfBirth,
+                        List<Phone> phones, Address address, Employer employer,
+                        PersonalInfo mother, PersonalInfo father, PersonalInfo spouse, List<PersonalInfo> siblings, List<PersonalInfo> children,
+                        Map<String,String> miscellaneous) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -26,6 +35,11 @@ public final class PersonalInfo {
         this.phones = phones;
         this.address = address;
         this.employer = employer;
+        this.mother = mother;
+        this.spouse = spouse;
+        this.father = father;
+        this.siblings = siblings;
+        this.children = children;
         this.miscellaneous = miscellaneous;
     }
 
@@ -65,25 +79,24 @@ public final class PersonalInfo {
         return miscellaneous;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PersonalInfo that = (PersonalInfo) o;
-        return Objects.equals(firstName, that.firstName) &&
-                Objects.equals(middleName, that.middleName) &&
-                Objects.equals(lastName, that.lastName) &&
-                gender == that.gender &&
-                Objects.equals(dateOfBirth, that.dateOfBirth) &&
-                Objects.equals(phones, that.phones) &&
-                Objects.equals(address, that.address) &&
-                Objects.equals(employer, that.employer) &&
-                Objects.equals(miscellaneous, that.miscellaneous);
+    public PersonalInfo getMother() {
+        return mother;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(firstName, middleName, lastName, gender, dateOfBirth, phones, address, employer, miscellaneous);
+    public PersonalInfo getFather() {
+        return father;
+    }
+
+    public List<PersonalInfo> getSiblings() {
+        return siblings;
+    }
+
+    public List<PersonalInfo> getChildren() {
+        return children;
+    }
+
+    public PersonalInfo getSpouse() {
+        return spouse;
     }
 
     @Override
@@ -97,8 +110,39 @@ public final class PersonalInfo {
         sb.append(", phones=").append(phones);
         sb.append(", address=").append(address);
         sb.append(", employer=").append(employer);
+        sb.append(", mother=").append(mother);
+        sb.append(", father=").append(father);
+        sb.append(", spouse=").append(spouse);
+        sb.append(", siblings=").append(siblings);
+        sb.append(", children=").append(children);
         sb.append(", miscellaneous=").append(miscellaneous);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersonalInfo that = (PersonalInfo) o;
+        return Objects.equals(firstName, that.firstName) &&
+                Objects.equals(middleName, that.middleName) &&
+                Objects.equals(lastName, that.lastName) &&
+                gender == that.gender &&
+                Objects.equals(dateOfBirth, that.dateOfBirth) &&
+                Objects.equals(phones, that.phones) &&
+                Objects.equals(address, that.address) &&
+                Objects.equals(employer, that.employer) &&
+                Objects.equals(mother, that.mother) &&
+                Objects.equals(father, that.father) &&
+                Objects.equals(spouse, that.spouse) &&
+                Objects.equals(siblings, that.siblings) &&
+                Objects.equals(children, that.children) &&
+                Objects.equals(miscellaneous, that.miscellaneous);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, middleName, lastName, gender, dateOfBirth, phones, address, employer, mother, father, spouse, siblings, children, miscellaneous);
     }
 }
