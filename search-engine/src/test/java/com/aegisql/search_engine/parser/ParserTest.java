@@ -12,6 +12,8 @@ import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 
+// More files in /Volumes/SDCard/Books/gutenberg/aleph.gutenberg.org
+
 public class ParserTest {
 
     @Test
@@ -44,11 +46,11 @@ public class ParserTest {
             tokens.add(token);
         });
 
-        Stream<Character> characterStream = FileUtils.toCharStream("/Volumes/SDCard/Books/gutenberg/aleph.gutenberg.org/1/1/1/1110/1110.txt");
+        Stream<Character> characterStream = FileUtils.toCharStream("src/test/resources/1110.txt");
 
         p.parse(characterStream);
         System.out.println("Total parsed: "+p.getSize());
-        String s = FileUtils.readFragment(Path.of("/Volumes/SDCard/Books/gutenberg/aleph.gutenberg.org/1/1/1/1110/1110.txt"), 145780, 20);
+        String s = FileUtils.readFragment(Path.of("src/test/resources/1110.txt"), 145780, 20);
         System.out.println("Fragment: "+s);
     }
 
