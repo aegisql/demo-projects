@@ -24,6 +24,14 @@ public class Token {
         return tokenOffset;
     }
 
+    public int getRelativeAbsOffset(Token other) {
+        return this.absOffset - other.absOffset;
+    }
+
+    public int getRelativeTokenOffset(Token other) {
+        return this.tokenOffset - other.tokenOffset;
+    }
+
     public String getToken() {
         return token;
     }
@@ -34,6 +42,15 @@ public class Token {
         if (o == null || getClass() != o.getClass()) return false;
         Token token1 = (Token) o;
         return absOffset == token1.absOffset && tokenOffset == token1.tokenOffset && token.equals(token1.token);
+    }
+
+    public boolean contentEquals(String content) {
+        return token.equals(content);
+    }
+
+    public boolean contentEquals(Token content) {
+        if(content==null) return false;
+        return contentEquals(content.getToken());
     }
 
     @Override

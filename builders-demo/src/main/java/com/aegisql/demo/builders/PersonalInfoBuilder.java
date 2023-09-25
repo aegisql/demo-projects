@@ -173,6 +173,10 @@ public class PersonalInfoBuilder <R> extends AbstractBuilder<PersonalInfo,R> {
         return pi;
     }
 
+    public R donePersonalInfo() {
+        return done();
+    }
+
     @Override
     public AbstractBuilder<PersonalInfo, R> accept(ModelPartVisitor visitor) {
         return visitor.visit(this);

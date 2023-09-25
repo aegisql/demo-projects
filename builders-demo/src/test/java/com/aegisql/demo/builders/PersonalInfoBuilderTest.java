@@ -40,8 +40,12 @@ public class PersonalInfoBuilderTest {
                         .town("Town")
                         .zipCode("10000")
                         .doneAddress()
-                    .doneEmployer()
-
+                    .reportTo()
+                        .firstName("Jane")
+                        .lastName("Smith")
+                        .female()
+                        .donePersonalInfo()
+                .doneEmployer()
                 .get();
 
         assertNotNull(personalInfo);
