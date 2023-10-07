@@ -1,0 +1,23 @@
+<h2>Search in a directory</h2>
+<form id="scanDirForm" onsubmit="performDirScan(); return false;">
+    <input type="text" id="path" placeholder="Absolute search path..." value="/Volumes/SDCard/Books/gutenberg/" required>
+    <button type="submit">Search</button>
+</form>
+
+<h2>Or upload and index a text file</h2>
+
+<form id="fileForm" enctype="multipart/form-data" onsubmit="sendFile(); return false;">
+    <label for="fileInput" id="fileLabel" class="custom-file-upload">
+        Choose a File
+    </label>
+    <input type="file" id="fileInput" style="display:none"/>
+    <button type="submit">Submit</button>
+    <label>
+        <input type="checkbox" id="replaceCheckbox" class="custom-checkbox">
+        <span class="custom-checkbox">Replace file</span>
+    </label>
+</form>
+
+<div id="responseMessage">
+    <!-- Results will be displayed here -->
+</div>

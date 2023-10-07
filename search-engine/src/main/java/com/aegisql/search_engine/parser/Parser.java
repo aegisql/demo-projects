@@ -13,27 +13,29 @@ public class Parser {
 
     private final Consumer<Token> tc;
 
+    private final CharacterStreamSupplier supplier;
+
     boolean inSpace = true;
 
-    public Parser(@NotNull Consumer<Token> tc) {
+    public Parser(@NotNull Consumer<Token> tc, @NotNull CharacterStreamSupplier supplier) {
+        this.supplier = supplier;
         this.tc = tc;
     }
 
-    public void parse(String str) {
-        Stream<Character> characterStream = str.chars().mapToObj(c -> (char) c);
-        parse(characterStream);
+    public void parse() {
+        parse(supplier.get());
     }
 
-    public void parse(Stream<Character> stream) {
+    private void parse(Stream<Character> stream) {
         inSpace = true;
         final StringBuilder sb = new StringBuilder();
         stream.forEach((var next)->{
-            if (Character.isWhitespace(next)) {
+            if ( ! Character.isLetter(next)) {
                 if(!inSpace) {
                     inSpace = true;
                     String token = sb.toString();
                     sb.setLength(0);
-                    Token t = new Token(size-token.length(),tokenNumber++,token);
+                    Token t = new Token(size-token.length(),tokenNumber++,token, supplier);
                     tc.accept(t);
                 }
             } else {
@@ -44,7 +46,7 @@ public class Parser {
         });
         if(!inSpace) {
             String token = sb.toString();
-            Token t = new Token(size-token.length(),tokenNumber++,token);
+            Token t = new Token(size-token.length(),tokenNumber++,token, supplier);
             tc.accept(t);
         }
     }

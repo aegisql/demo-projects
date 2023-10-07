@@ -1,0 +1,52 @@
+/* ... existing styles ... */
+
+#menuArea {
+    background-color: #add8e6; /* Light Blue */
+    padding: 10px 0;
+    text-align: center;
+}
+
+input[type="text"] {
+    padding: 12px 15px;       /* Increased padding for a larger appearance */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1.2em;        /* Larger font size to match the button */
+}
+
+#menuArea button, button[type="submit"] {
+    background-color: #555;
+    color: white;
+    border: none;             /* Makes it flat */
+    padding: 15px 30px;       /* Increased padding for a larger appearance */
+    font-size: 1.2em;         /* Larger font size */
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#menuArea button:hover, button[type="submit"]:hover {
+    background-color: #777;
+}
+
+.custom-checkbox {
+    margin-right: 10px;
+    vertical-align: middle;
+    cursor: pointer;
+    font-size: 1.5em;
+}
+
+.custom-file-upload {
+    background-color: #555;
+    color: white;
+    border: none;            /* Makes it flat */
+    padding: 15px 30px;      /* Increased padding for a larger appearance */
+    font-size: 1.2em;        /* Larger font size */
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: inline-block;
+}
+
+.custom-file-upload:hover {
+    background-color: #777;
+}

@@ -22,8 +22,8 @@ public class ParserTest {
         Parser p = new Parser(token -> {
             System.out.println(token);
             tokens.add(token);
-        });
-        p.parse("A and B");
+        }, new StringStreamSupplier("A and B"));
+        p.parse();
         assertEquals(3,tokens.size());
     }
 
@@ -33,8 +33,8 @@ public class ParserTest {
         Parser p = new Parser(token -> {
             System.out.println(token);
             tokens.add(token);
-        });
-        p.parse("A\tand\nB");
+        }, new StringStreamSupplier("A\tand\nB"));
+        p.parse();
         assertEquals(3,tokens.size());
     }
 
@@ -44,11 +44,9 @@ public class ParserTest {
         Parser p = new Parser(token -> {
             System.out.println(token);
             tokens.add(token);
-        });
+        }, new FileStreamSupplier("src/test/resources/1110.txt"));
 
-        Stream<Character> characterStream = FileUtils.toCharStream("src/test/resources/1110.txt");
-
-        p.parse(characterStream);
+        p.parse();
         System.out.println("Total parsed: "+p.getSize());
         String s = FileUtils.readFragment(Path.of("src/test/resources/1110.txt"), 145780, 20);
         System.out.println("Fragment: "+s);
