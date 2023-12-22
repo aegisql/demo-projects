@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class Token {
+public class Token implements Comparable<Token>{
     private final Offset offset;
     @NotNull
     private final String token;
@@ -13,6 +13,12 @@ public class Token {
 
     public Token(int absOffset, int tokenOffset, @NotNull String token, @NotNull CharacterStreamSupplier supplier) {
         this.offset = new Offset(absOffset,tokenOffset);
+        this.token = token.toLowerCase();
+        this.supplier = supplier;
+    }
+
+    public Token(Offset offset, @NotNull String token, @NotNull CharacterStreamSupplier supplier) {
+        this.offset = offset;
         this.token = token.toLowerCase();
         this.supplier = supplier;
     }
@@ -79,5 +85,10 @@ public class Token {
         sb.append(", ").append(supplier);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public int compareTo(@NotNull Token o) {
+        return this.offset.compareTo(o.offset);
     }
 }

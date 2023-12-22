@@ -10,6 +10,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class FileUtils {
@@ -29,21 +31,28 @@ public class FileUtils {
         }
     }
 
-    public static String readAlignedFragment(Path filePath, long startPosition, int fragmentLength, int alignmentLength) {
+    public static long fileSize(Path filePath) {
         long size = -1;
         try {
-             size = Files.size(filePath);
+            size = Files.size(filePath);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        long lastByte = startPosition+fragmentLength;
-        return readFragment(filePath,startPosition,fragmentLength);
+        return size;
     }
 
-    public static String readFragment(Path filePath, long startPosition, int fragmentLength) {
-        byte[] fragmentBytes = new byte[fragmentLength];
+    public static String readAlignedFragment(Path filePath, long startPosition, int fragmentLength, int alignmentLength) {
+        long size = fileSize(filePath);
+        long lastByte = startPosition+fragmentLength;
+        return readFragment(filePath,startPosition,fragmentLength,0);
+    }
+
+    public static String readFragment(Path filePath, long startPosition, int fragmentLength, int prefixLength) {
+        long readFrom = Math.max(0L,startPosition-prefixLength);
+        int readSize = fragmentLength + (int)(startPosition - readFrom);
+        byte[] fragmentBytes = new byte[readSize];
         try (RandomAccessFile randomAccessFile = new RandomAccessFile(filePath.toFile(), "r")) {
-            randomAccessFile.seek(startPosition);
+            randomAccessFile.seek(readFrom);
             randomAccessFile.read(fragmentBytes);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -51,4 +60,24 @@ public class FileUtils {
         return new String(fragmentBytes);
     }
 
+    public static List<String> readFragments(Path filePath, List<Long> positions, int fragmentLength) {
+        List<String> results = new ArrayList<>();
+        long size = fileSize(filePath);
+        try (RandomAccessFile randomAccessFile = new RandomAccessFile(filePath.toFile(), "r")) {
+            positions.stream().filter(pos -> pos < (size-1) ).forEach(pos->{
+                int readBytes = (int) Math.min(size-pos,fragmentLength);
+                try {
+                    randomAccessFile.seek(pos);
+                    byte[] fragmentBytes = new byte[readBytes];
+                    randomAccessFile.read(fragmentBytes);
+                    results.add(new String(fragmentBytes));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return results;
+    }
 }

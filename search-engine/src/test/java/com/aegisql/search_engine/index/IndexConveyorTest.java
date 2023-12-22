@@ -29,8 +29,8 @@ public class IndexConveyorTest {
             ic.part().id(t.getToken()).label(IndexEvents.ADD_TOKEN).value(t).place();
         }, new FileStreamSupplier("src/test/resources/1110.txt"));
         p.parse();
-        SearchQuery query = new SearchQuery("sovereign", 1, QueryType.ANY);
-        sc.part().ttl(Duration.ofSeconds(1)).id(1).label(SearchEvents.INIT).value(query).place();
+        SearchQuery query = new SearchQuery("sovereign", 1L, QueryType.ANY);
+        sc.part().ttl(Duration.ofSeconds(1)).id(1L).label(SearchEvents.INIT).value(query).place();
         ic.part().id("sovereign").label(IndexEvents.COLLECT).value(query).place();
         sc.completeAndStop().join();
         ic.stop();
@@ -50,8 +50,8 @@ public class IndexConveyorTest {
         }
         IndexConveyor ic = (IndexConveyor) Conveyor.byName("IndexConveyor");
         SearchConveyor sc = new SearchConveyor();
-        SearchQuery query = new SearchQuery("sovereign", 1, QueryType.ANY);
-        sc.part().ttl(Duration.ofSeconds(1)).id(1).label(SearchEvents.INIT).value(query).place();
+        SearchQuery query = new SearchQuery("sovereign", 1L, QueryType.ANY);
+        sc.part().ttl(Duration.ofSeconds(1)).id(1L).label(SearchEvents.INIT).value(query).place();
         ic.part().id("sovereign").label(IndexEvents.COLLECT).value(query).place();
         sc.completeAndStop().join();
         ic.completeAndStop().join();

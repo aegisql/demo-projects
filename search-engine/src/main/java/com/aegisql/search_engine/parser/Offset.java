@@ -1,8 +1,10 @@
 package com.aegisql.search_engine.parser;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
-public class Offset {
+public class Offset implements Comparable<Offset>{
 
     public final int absolute;
     public final int token;
@@ -31,5 +33,10 @@ public class Offset {
     @Override
     public int hashCode() {
         return Objects.hash(absolute, token);
+    }
+
+    @Override
+    public int compareTo(@NotNull Offset o) {
+        return this.absolute - o.absolute;
     }
 }

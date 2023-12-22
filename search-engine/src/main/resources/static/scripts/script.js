@@ -24,12 +24,9 @@
             .then(response => response.json())
             .then(data => {
                 // Displaying results as a simple list; modify as needed
-                var resultsHTML = "<ul>";
-                data.results.forEach(item => {
-                    resultsHTML += "<li>" + item.token + " " + Object.keys(item.foundDoc).length + "</li>";
-                });
-                resultsHTML += "</ul>";
-                document.getElementById("searchResults").innerHTML = resultsHTML;
+                var resultsHTML = JSON.stringify(data);
+                document.getElementById("searchResults").innerHTML = resultsHTML.replace(/ /g, "&nbsp;").replace(/\n/g, "<br>").replaceAll(",", ",<br>");
+                //hljs.highlightBlock(document.getElementById('searchResults'));
             });
     }
 

@@ -7,6 +7,7 @@ import java.util.function.BiConsumer;
 public enum SearchEvents implements SmartLabel<SearchResultBuilder> {
     INIT(SearchResultBuilder::init)
     ,TOKEN_FOUND(SearchResultBuilder::tokenFound)
+    ,MAX_DOCS(SearchResultBuilder::maxDocuments)
     ;
 
     <T> SearchEvents(BiConsumer<SearchResultBuilder, T> consumer) {

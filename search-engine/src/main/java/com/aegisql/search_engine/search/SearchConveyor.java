@@ -11,5 +11,6 @@ public class SearchConveyor extends AssemblingConveyor<Long, SearchEvents, Searc
         this.setBuilderSupplier(SearchResultBuilder::new);
         this.setName("SearchConveyor");
         this.resultConsumer(new IgnoreResult<>()).set();//result delivered by future
+        this.staticPart().label(SearchEvents.MAX_DOCS).value(10).place();
     }
 }
