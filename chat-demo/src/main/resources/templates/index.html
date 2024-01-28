@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <title>Chat Application</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stomp-websocket/lib/stomp.min.js"></script>
+    <script src="/scripts/script.js">
+    </script>
+</head>
+<body>
+<nav>
+    <span class="extra-large-font">MyChat</span>
+    <div class="flex-container">
+        <input type="text" id="username" class="message-input" placeholder="User name">
+        <button id="connectBtn">Connect</button>
+    </div>
+</nav>
+<div class="chat-container">
+    <section class="user-list">
+        <div><span class="large-font">Active Users</span></div>
+        <div id="active-users">
+            <div class="active-user">User_1</div>
+            <div class="active-user">User_2</div>
+            <div class="active-user">User_3</div>
+        </div>
+    </section>
+    <section class="chat-area">
+        <div class="messages-container" id="messages">
+            <div class="message user-message">User: Hello!</div>
+            <div class="message other-message">Other User: Hi there!</div>
+            <div class="message other-message">Other User: How are you?</div>
+            <!-- More messages -->
+        </div>
+        <div class="message-input-container">
+            <input type="text" id="message" class="message-input" placeholder="Type a message...">
+            <button id="sendBtn">Send</button>
+        </div>
+    </section>
+</div>
+<footer>
+    <small><a href="#">Privacy Policy</a> • <a href="#">Terms of Service</a></small>
+</footer>
+</body>
+</html>

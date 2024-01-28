@@ -1,0 +1,72 @@
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.chat-container {
+    display: flex;
+    flex-grow: 1;
+    height: calc(100% - 60px);
+}
+.user-list {
+    flex-basis: 300px;
+    overflow-y: auto;
+    border-right: 1px solid #ddd;
+}
+.active-user {
+    margin: 0px 20px;
+    padding: 5px;
+    text-align: left;
+}
+.chat-area {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+.messages-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+.flex-container {
+    display: flex;
+}
+.message-input-container {
+    display: flex;
+    padding: 10px;
+}
+.message-input {
+    margin-right: 10px;
+    width: 350px;
+}
+.message {
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 10px;
+}
+.user-message {
+    background-color: #e1f5fe;
+    text-align: right;
+ }
+.other-message {
+    background-color: #ffe0b2;
+    text-align: left;
+}
+button {
+    padding: 5px 10px;
+    width: 150px; /* Fixed width for buttons */
+    white-space: nowrap; /* Ensure text doesn't wrap */
+}
+nav, .message-input-container button {
+    padding: 10px;
+}
+.extra-large-font {
+    font-size: 48px; /* or any large size you prefer */
+    vertical-align: middle; /* aligns the text with surrounding elements */
+    padding: 5px 10px;
+}
+.large-font {
+    font-size: 32px; /* or any large size you prefer */
+    vertical-align: middle; /* aligns the text with surrounding elements */
+    padding: 5px 10px;
+}
